@@ -172,9 +172,9 @@ function closeModal() {
 function closeModalBtn() {
 	closeModal();
 	setTimeout(() => {
-	closeCross.classList.toggle("--hide", false);
-	modalBodySuccess.classList.toggle("--hide", true);
-	modalBody.classList.toggle("--hide", false);
+		closeCross.classList.toggle("--hide", false);
+		modalBodySuccess.classList.toggle("--hide", true);
+		modalBody.classList.toggle("--hide", false);
 	}, 1400);
 }
 
@@ -299,12 +299,22 @@ function validateForm(e) {
 		else {
 			modalBodySuccess.querySelector(".modal-text[data-name='modal-text-newsletter']").classList.toggle("--hide", true);
 		}
-		localStorage.setItem("formData", JSON.stringify(formData_obj));
-		localStorage.setItem("formData_radio", JSON.stringify(formData_obj_radio));
-		localStorage.setItem("formData_checkbox", JSON.stringify(formData_obj_checkbox));
+
+		let locationChecked = {
+			location: Object.keys(formData_obj_radio).filter(location => formData_obj_radio[location].checked === true).map(location => formData_obj_radio[location])
+		}
+
+		let localStorageData = {
+			formData: formData_obj,
+			formData_radio: locationChecked,
+			formData_checkbox: formData_obj_checkbox
+		}
+
+		// save data in localStorage
+		localStorage.setItem("registration", JSON.stringify(localStorageData));
 	}
 	else {
-		console.error("Le formulaire n'est pas valide. Veuillez vérifier les champs en rouge.");
+		console.error("Le formulaire n'est pas valide. Veuillez vérifier les données saisies.");
 	}
 }
 
