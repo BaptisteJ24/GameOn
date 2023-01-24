@@ -380,6 +380,11 @@ input {
   transform: rotate(-45deg);
 }
 
+/* close modal animation */
+.modal-close {
+  animation: modalopen reverse var(--modal-duration) both;
+}
+
 .btn-submit,
 .btn-close,
 .btn-signup {

@@ -56,7 +56,7 @@ function limitAge() {
 	}
 }
 
-// formData object for each input field in the form : value, type, error, id, valid, regex
+// formData object for each text input field in the form
 let formData_obj = {
 	firstName: {
 		id: firstName,
@@ -100,6 +100,7 @@ let formData_obj = {
 	}
 }
 
+// formData object for each radio button in the form
 let formData_obj_radio = {};
 for (let i = 0; i < radioBtns.length; i++) {
 	let location = "location" + (i + 1);
@@ -107,10 +108,12 @@ for (let i = 0; i < radioBtns.length; i++) {
 		name: radioBtns[i].name,
 		id: radioBtns[i],
 		valid: false,
-		value: radioBtns[i].checked,
+		value: radioBtns[i].value,
+		checked: radioBtns[i].checked
 	};
 }
 
+// formData object for each checkbox in the form
 let formData_obj_checkbox = {
 	usingConditions: {
 		name: usingConditions.name,
@@ -126,6 +129,7 @@ let formData_obj_checkbox = {
 	}
 }
 
+// function edit nav bar
 function editNav() {
 	var x = document.getElementById("myTopnav");
 	if (x.className === "topnav") {
@@ -152,19 +156,26 @@ closeBtn.addEventListener("click", closeModalBtn);
 
 // close modal function when clicking on the cross
 function closeModal() {
-	modalbg.classList.toggle("--hide", true);
-	modalForm.reset();
-	for (let field in formData_obj) {
-		formData_obj[field].id.classList.toggle("text-control--valid", false);
-	}
+	modalbg.classList.toggle("modal-close", true);
+	setTimeout(() => {
+		modalbg.classList.toggle("--hide", true);
+		modalForm.reset();
+		for (let field in formData_obj) {
+			formData_obj[field].id.classList.toggle("text-control--valid", false);
+			formData[formData_obj[field].name].dataset.errorVisible = "";
+		}
+	}, 1000);
+	setTimeout(() => modalbg.classList.toggle("modal-close", false), 1200);
 }
 
 // close modal function when clicking on the close button
 function closeModalBtn() {
 	closeModal();
+	setTimeout(() => {
 	closeCross.classList.toggle("--hide", false);
 	modalBodySuccess.classList.toggle("--hide", true);
 	modalBody.classList.toggle("--hide", false);
+	}, 1400);
 }
 
 // initialize formData with the values entered in the form
@@ -173,13 +184,16 @@ function initFormData() {
 		formData_obj[field].value = formData_obj[field].id.value;
 	}
 	for (let field in formData_obj_radio) {
-		formData_obj_radio[field].value = formData_obj_radio[field].id.checked;
+		formData_obj_radio[field].checked = formData_obj_radio[field].id.checked;
+		formData_obj_radio[field].value = formData_obj_radio[field].id.value;
+
 	}
 	for (let field in formData_obj_checkbox) {
 		formData_obj_checkbox[field].value = formData_obj_checkbox[field].id.checked;
 	}
 }
 
+// function valid text input fields
 function validateFormData() {
 	let validDataFields = false;
 
@@ -227,10 +241,11 @@ function validateFormData() {
 	return validDataFields;
 }
 
+// function validate a location is selected
 function validateFormData_radio() {
 	let validLocation = false;
 	for (let field in formData_obj_radio) {
-		formData_obj_radio[field].id.checked ?
+		formData_obj_radio[field].checked ?
 			(formData_obj_radio[field].valid = true,
 				validLocation = true) :
 			(formData_obj_radio[field].valid = false);
@@ -243,6 +258,7 @@ function validateFormData_radio() {
 	return validLocation;
 }
 
+// function to know if the user accept the using conditions
 function validateUsingConditions() {
 	let validUsingConditions = false;
 
@@ -255,6 +271,7 @@ function validateUsingConditions() {
 	return validUsingConditions;
 }
 
+// function to know if the user want to receive the newsletter
 function validateNewsletter() {
 	let validNewsletter = false;
 	formData_obj_checkbox['newsletter'].id.checked ?
@@ -263,6 +280,8 @@ function validateNewsletter() {
 		(formData_obj_checkbox['newsletter'].valid = false)
 	return validNewsletter;
 }
+
+
 
 // validate form and display error message if necessary. Else, display success message.
 function validateForm(e) {
@@ -280,10 +299,21 @@ function validateForm(e) {
 		else {
 			modalBodySuccess.querySelector(".modal-text[data-name='modal-text-newsletter']").classList.toggle("--hide", true);
 		}
+		localStorage.setItem("formData", JSON.stringify(formData_obj));
+		localStorage.setItem("formData_radio", JSON.stringify(formData_obj_radio));
+		localStorage.setItem("formData_checkbox", JSON.stringify(formData_obj_checkbox));
+	}
+	else {
+		console.error("Le formulaire n'est pas valide. Veuillez vérifier les champs en rouge.");
 	}
 }
 
+// event listener for submit button
 submitBtn.addEventListener("click", validateForm);
+
+
+
+
 
 // event listener for each input field and green border if is valid
 for (let field in formData_obj) {
@@ -318,3 +348,4 @@ function validateField(field, fieldData) {
 		}
 	}
 }
+
