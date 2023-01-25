@@ -16,7 +16,7 @@ const
 	submitBtn = document.getElementById("btn-submit"),
 	radioBtns = document.getElementsByClassName("radio-input"),
 	radioFormData = document.querySelector(`[data-name="location"]`),
-	usingConditions = document.getElementById("checkbox1"),
+	usingCondition = document.getElementById("checkbox1"),
 	newsletter = document.getElementById("checkbox2"),
 	container = document.querySelectorAll(".container");
 
@@ -57,7 +57,7 @@ function limitAge() {
 }
 
 // formData object for each text input field in the form
-let formData_obj = {
+let formDataObj = {
 	firstName: {
 		id: firstName,
 		name: firstName.name,
@@ -101,10 +101,10 @@ let formData_obj = {
 }
 
 // formData object for each radio button in the form
-let formData_obj_radio = {};
+let formDataObjRadio = {};
 for (let i = 0; i < radioBtns.length; i++) {
 	let location = "location" + (i + 1);
-	formData_obj_radio[location] = {
+	formDataObjRadio[location] = {
 		name: radioBtns[i].name,
 		id: radioBtns[i],
 		valid: false,
@@ -114,13 +114,13 @@ for (let i = 0; i < radioBtns.length; i++) {
 }
 
 // formData object for each checkbox in the form
-let formData_obj_checkbox = {
-	usingConditions: {
-		name: usingConditions.name,
-		error: usingConditions.dataset.error,
-		id: usingConditions,
+let formDataObjCheckbox = {
+	usingCondition: {
+		name: usingCondition.name,
+		error: usingCondition.dataset.error,
+		id: usingCondition,
 		valid: false,
-		value: usingConditions.checked,
+		value: usingCondition.checked,
 	},
 	newsletter: {
 		value: newsletter.checked,
@@ -130,7 +130,8 @@ let formData_obj_checkbox = {
 }
 
 // function edit nav bar
-function editNav() {
+function editNav(e) {
+	e.preventDefault();
 	var x = document.getElementById("myTopnav");
 	if (x.className === "topnav") {
 		x.className += " responsive";
@@ -139,13 +140,16 @@ function editNav() {
 	}
 }
 
+// edit nav bar event
+document.getElementById("myTopnav").addEventListener("click", editNav);
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 
 // launch modal function
 function launchModal() {
-	modalbg.classList.toggle("--hide", false);
+	modalbg.classList.toggle("hide", false);
 }
 
 
@@ -158,11 +162,11 @@ closeBtn.addEventListener("click", closeModalBtn);
 function closeModal() {
 	modalbg.classList.toggle("modal-close", true);
 	setTimeout(() => {
-		modalbg.classList.toggle("--hide", true);
+		modalbg.classList.toggle("hide", true);
 		modalForm.reset();
-		for (let field in formData_obj) {
-			formData_obj[field].id.classList.toggle("text-control--valid", false);
-			formData[formData_obj[field].name].dataset.errorVisible = "";
+		for (let field in formDataObj) {
+			formDataObj[field].id.classList.toggle("text-control--valid", false);
+			formData[formDataObj[field].name].dataset.errorVisible = "";
 		}
 	}, 1000);
 	setTimeout(() => modalbg.classList.toggle("modal-close", false), 1200);
@@ -172,24 +176,24 @@ function closeModal() {
 function closeModalBtn() {
 	closeModal();
 	setTimeout(() => {
-		closeCross.classList.toggle("--hide", false);
-		modalBodySuccess.classList.toggle("--hide", true);
-		modalBody.classList.toggle("--hide", false);
+		closeCross.classList.toggle("hide", false);
+		modalBodySuccess.classList.toggle("hide", true);
+		modalBody.classList.toggle("hide", false);
 	}, 1400);
 }
 
 // initialize formData with the values entered in the form
 function initFormData() {
-	for (let field in formData_obj) {
-		formData_obj[field].value = formData_obj[field].id.value;
+	for (let field in formDataObj) {
+		formDataObj[field].value = formDataObj[field].id.value;
 	}
-	for (let field in formData_obj_radio) {
-		formData_obj_radio[field].checked = formData_obj_radio[field].id.checked;
-		formData_obj_radio[field].value = formData_obj_radio[field].id.value;
+	for (let field in formDataObjRadio) {
+		formDataObjRadio[field].checked = formDataObjRadio[field].id.checked;
+		formDataObjRadio[field].value = formDataObjRadio[field].id.value;
 
 	}
-	for (let field in formData_obj_checkbox) {
-		formData_obj_checkbox[field].value = formData_obj_checkbox[field].id.checked;
+	for (let field in formDataObjCheckbox) {
+		formDataObjCheckbox[field].value = formDataObjCheckbox[field].id.checked;
 	}
 }
 
@@ -198,37 +202,37 @@ function validateFormData() {
 	let validDataFields = false;
 
 	// check if firstname, lastname, email, birthdate and quantity of participations are valid (with regex)
-	for (let field in formData_obj) {
-		formData[formData_obj[field].name].dataset.errorVisible = "false";
-		if (!formData_obj[field].regex.test(formData_obj[field].value)) {
-			formData[formData_obj[field].name].dataset.errorVisible = "true";
-			formData_obj[field].valid = false;
+	for (let field in formDataObj) {
+		formData[formDataObj[field].name].dataset.errorVisible = "false";
+		if (!formDataObj[field].regex.test(formDataObj[field].value)) {
+			formData[formDataObj[field].name].dataset.errorVisible = "true";
+			formDataObj[field].valid = false;
 		} else {
-			formData[formData_obj[field].name].dataset.errorVisible = "false";
-			formData_obj[field].valid = true;
+			formData[formDataObj[field].name].dataset.errorVisible = "false";
+			formDataObj[field].valid = true;
 		}
 	}
 
 	// check if birthdate is valid (must be > 16 years old)
-	if (formData_obj.birthdate.valid) {
+	if (formDataObj.birthdate.valid) {
 		if (limitAge()) {
 			formData.birthdate.dataset.errorVisible = "false";
-			formData_obj.birthdate.valid = true;
+			formDataObj.birthdate.valid = true;
 		} else {
 			formData.birthdate.dataset.errorVisible = "true";
-			formData_obj.birthdate.valid = false;
+			formDataObj.birthdate.valid = false;
 		}
 	}
 
-	// check if quantity is valid (must be > 0)
-	if (formData_obj.quantity.valid && parseInt(formData_obj.quantity.value) <= 0) {
+	// check if quantity is valid (must be > 0 and < 100)
+	if (formDataObj.quantity.valid && (parseInt(formDataObj.quantity.value) < 1 || parseInt(formDataObj.quantity.value) > 99)) {
 		formData.quantity.dataset.errorVisible = "true";
-		formData_obj.quantity.valid = false;
+		formDataObj.quantity.valid = false;
 	}
 
 	// check if all fields are valid
-	for (let field in formData_obj) {
-		if (formData_obj[field].valid) {
+	for (let field in formDataObj) {
+		if (formDataObj[field].valid) {
 			validDataFields = true;
 		}
 		else {
@@ -242,13 +246,13 @@ function validateFormData() {
 }
 
 // function validate a location is selected
-function validateFormData_radio() {
+function validateFormDataRadio() {
 	let validLocation = false;
-	for (let field in formData_obj_radio) {
-		formData_obj_radio[field].checked ?
-			(formData_obj_radio[field].valid = true,
+	for (let field in formDataObjRadio) {
+		formDataObjRadio[field].checked ?
+			(formDataObjRadio[field].valid = true,
 				validLocation = true) :
-			(formData_obj_radio[field].valid = false);
+			(formDataObjRadio[field].valid = false);
 	}
 
 	validLocation ?
@@ -259,25 +263,25 @@ function validateFormData_radio() {
 }
 
 // function to know if the user accept the using conditions
-function validateUsingConditions() {
-	let validUsingConditions = false;
+function validateUsingCondition() {
+	let validUsingCondition = false;
 
-	formData_obj_checkbox['usingConditions'].id.checked ?
-		(formData[formData_obj_checkbox['usingConditions'].name].dataset.errorVisible = "false",
-			formData_obj_checkbox['usingConditions'].valid = true,
-			validUsingConditions = true) :
-		(formData[formData_obj_checkbox['usingConditions'].name].dataset.errorVisible = "true")
+	formDataObjCheckbox['usingCondition'].id.checked ?
+		(formData[formDataObjCheckbox['usingCondition'].name].dataset.errorVisible = "false",
+			formDataObjCheckbox['usingCondition'].valid = true,
+			validUsingCondition = true) :
+		(formData[formDataObjCheckbox['usingCondition'].name].dataset.errorVisible = "true")
 
-	return validUsingConditions;
+	return validUsingCondition;
 }
 
 // function to know if the user want to receive the newsletter
 function validateNewsletter() {
 	let validNewsletter = false;
-	formData_obj_checkbox['newsletter'].id.checked ?
-		(formData_obj_checkbox['newsletter'].valid = true,
+	formDataObjCheckbox['newsletter'].id.checked ?
+		(formDataObjCheckbox['newsletter'].valid = true,
 			validNewsletter = true) :
-		(formData_obj_checkbox['newsletter'].valid = false)
+		(formDataObjCheckbox['newsletter'].valid = false)
 	return validNewsletter;
 }
 
@@ -288,26 +292,47 @@ function validateForm(e) {
 	e.preventDefault();
 	initFormData();
 
-	if (validateFormData() && validateFormData_radio() && validateUsingConditions()) {
-		closeCross.classList.toggle("--hide", true);
-		modalBody.classList.toggle("--hide", true);
-		modalBodySuccess.classList.toggle("--hide", false);
+	if (validateFormData() && validateFormDataRadio() && validateUsingCondition()) {
+		closeCross.classList.toggle("hide", true);
+		modalBody.classList.toggle("hide", true);
+		modalBodySuccess.classList.toggle("hide", false);
 
 		if (validateNewsletter()) {
-			modalBodySuccess.querySelector(".modal-text[data-name='modal-text-newsletter']").classList.toggle("--hide", false);
+			modalBodySuccess.querySelector(".modal-text[data-name='modal-text-newsletter']").classList.toggle("hide", false);
 		}
 		else {
-			modalBodySuccess.querySelector(".modal-text[data-name='modal-text-newsletter']").classList.toggle("--hide", true);
+			modalBodySuccess.querySelector(".modal-text[data-name='modal-text-newsletter']").classList.toggle("hide", true);
 		}
 
-		let locationChecked = {
-			location: Object.keys(formData_obj_radio).filter(location => formData_obj_radio[location].checked === true).map(location => formData_obj_radio[location])
-		}
+		// create object with all text data to save in localStorage
+		let textDataValues = Object.keys(formDataObj).reduce((acc, field) => {
+			acc[field] = formDataObj[field].value;
+			return acc;
+		}, {});
 
+		// create object with location checked to save in localStorage
+		let locationChecked = Object.keys(formDataObjRadio)
+			.filter(location => formDataObjRadio[location].checked === true)
+			.reduce((acc, location) => {
+				acc.location = formDataObjRadio[location].value;
+				return acc;
+			}, {});
+
+		// create object with all checkbox data to save in localStorage
+		let checkboxValues = Object.keys(formDataObjCheckbox).reduce((acc, field) => {
+			acc[field] = formDataObjCheckbox[field].value;
+			return acc;
+		}, {});
+		/*
+		create an object that contains 
+			all text data (firstName, lastName, email, birthdate, quantityOfTournament), 
+			radio data (location), 
+			checkbox data (usingConditions, newsletter).
+		*/
 		let localStorageData = {
-			formData: formData_obj,
-			formData_radio: locationChecked,
-			formData_checkbox: formData_obj_checkbox
+			formData: textDataValues,
+			formDataRadio: locationChecked,
+			formDataCheckbox: checkboxValues
 		}
 
 		// save data in localStorage
@@ -323,39 +348,81 @@ submitBtn.addEventListener("click", validateForm);
 
 
 
-
-
 // event listener for each input field and green border if is valid
-for (let field in formData_obj) {
-	formData_obj[field].id.addEventListener("focusout", (e) => {
-		validateField(e.target, formData_obj[field]);
+for (let field in formDataObj) {
+	formDataObj[field].id.addEventListener("focusout", (e) => {
+		validateField(e.target, formDataObj[field]);
 	});
 }
 
 // validate field function : green border if is valid
-function validateField(field, fieldData) {
-	if (fieldData.regex.test(field.value)) {
+function validateField(field, fieldDataObj) {
+	
+	if (fieldDataObj.regex.test(field.value)) {
 		field.classList.toggle("text-control--valid", true);
 		formData[field.name].dataset.errorVisible = "false";
-		fieldData.valid = true;
+		fieldDataObj.valid = true;
 	} else {
 		field.classList.toggle("text-control--valid", false);
 		formData[field.name].dataset.errorVisible = "true";
-		fieldData.valid = false;
+		fieldDataObj.valid = false;
 	}
-
-	if (fieldData.name === "birthdate") {
-		if (limitAge()) {
-			formData.birthdate.dataset.errorVisible = "false";
-			birthdate.classList.toggle("text-control--valid", true);
-			formData_obj.birthdate.valid = true;
-			formData.birthdate.dataset.error = "Veuillez entrer votre date de naissance.";
-		} else {
-			formData.birthdate.dataset.errorVisible = "true";
-			formData.birthdate.dataset.error = "L'inscription est réservée aux personnes de plus de 16 ans.";
-			birthdate.classList.toggle("text-control--valid", false);
-			formData_obj.birthdate.valid = false;
-		}
+	
+	switch (fieldDataObj.name) {
+		case "birthdate":
+			if (limitAge()) {
+				formData.birthdate.dataset.errorVisible = "false";
+				formData.birthdate.dataset.error = "Veuillez entrer votre date de naissance.";
+				birthdate.classList.toggle("text-control--valid", true);
+				fieldDataObj.valid = true;
+				
+			} else {
+				formData.birthdate.dataset.errorVisible = "true";
+				formData.birthdate.dataset.error = "L'inscription est réservée aux personnes de plus de 16 ans.";
+				birthdate.classList.toggle("text-control--valid", false);
+				fieldDataObj.valid = false;
+			}
+			break;
+		case "quantity":
+			if (parseInt(fieldDataObj.value < 1 || fieldDataObj.value > 99)) {
+				formData.quantity.dataset.errorVisible = "true";
+				formData.quantity.dataset.error = "Veuillez entrer un nombre entre 1 et 99.";
+				quantity.classList.toggle("text-control--valid", false);
+				fieldDataObj.valid = false;
+			}
+			else {
+				formData.quantity.dataset.errorVisible = "false";
+				quantity.classList.toggle("text-control--valid", true);
+				fieldDataObj.valid = true;
+			}
+			break;
 	}
 }
+
+// validate field function : green border if is valid
+// function validateField(field, fieldData) {
+// 	if (fieldData.regex.test(field.value)) {
+// 		field.classList.toggle("text-control--valid", true);
+// 		formData[field.name].dataset.errorVisible = "false";
+// 		fieldData.valid = true;
+// 	} else {
+// 		field.classList.toggle("text-control--valid", false);
+// 		formData[field.name].dataset.errorVisible = "true";
+// 		fieldData.valid = false;
+// 	}
+
+// 	if (fieldData.name === "birthdate") {
+// 		if (limitAge()) {
+// 			formData.birthdate.dataset.errorVisible = "false";
+// 			birthdate.classList.toggle("text-control--valid", true);
+// 			formDataObj.birthdate.valid = true;
+// 			formData.birthdate.dataset.error = "Veuillez entrer votre date de naissance.";
+// 		} else {
+// 			formData.birthdate.dataset.errorVisible = "true";
+// 			formData.birthdate.dataset.error = "L'inscription est réservée aux personnes de plus de 16 ans.";
+// 			birthdate.classList.toggle("text-control--valid", false);
+// 			formDataObj.birthdate.valid = false;
+// 		}
+// 	}
+// }
 
