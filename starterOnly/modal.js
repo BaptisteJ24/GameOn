@@ -398,31 +398,3 @@ function validateField(field, fieldDataObj) {
 			break;
 	}
 }
-
-// validate field function : green border if is valid
-// function validateField(field, fieldData) {
-// 	if (fieldData.regex.test(field.value)) {
-// 		field.classList.toggle("text-control--valid", true);
-// 		formData[field.name].dataset.errorVisible = "false";
-// 		fieldData.valid = true;
-// 	} else {
-// 		field.classList.toggle("text-control--valid", false);
-// 		formData[field.name].dataset.errorVisible = "true";
-// 		fieldData.valid = false;
-// 	}
-
-// 	if (fieldData.name === "birthdate") {
-// 		if (limitAge()) {
-// 			formData.birthdate.dataset.errorVisible = "false";
-// 			birthdate.classList.toggle("text-control--valid", true);
-// 			formDataObj.birthdate.valid = true;
-// 			formData.birthdate.dataset.error = "Veuillez entrer votre date de naissance.";
-// 		} else {
-// 			formData.birthdate.dataset.errorVisible = "true";
-// 			formData.birthdate.dataset.error = "L'inscription est réservée aux personnes de plus de 16 ans.";
-// 			birthdate.classList.toggle("text-control--valid", false);
-// 			formDataObj.birthdate.valid = false;
-// 		}
-// 	}
-// }
-
