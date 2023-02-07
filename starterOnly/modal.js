@@ -147,7 +147,6 @@ document.getElementById("myTopnav").addEventListener("click", editNav);
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-
 // launch modal function
 function launchModal() {
 	modalbg.classList.toggle("hide", false);
@@ -387,7 +386,7 @@ function validateField(field, fieldDataObj) {
 			}
 			break;
 		case "quantity":
-			if (parseInt(fieldDataObj.value < 1 || fieldDataObj.value > 99)) {
+			if (parseInt(fieldDataObj.value) < 1 || parseInt(fieldDataObj.value) > 99) {
 				formData.quantity.dataset.errorVisible = "true";
 				formData.quantity.dataset.error = "Veuillez entrer un nombre entre 1 et 99.";
 				quantity.classList.toggle("text-control--valid", false);
