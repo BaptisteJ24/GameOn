@@ -116,14 +116,15 @@ for (let i = 0; i < radioBtns.length; i++) {
 // formData object for each checkbox in the form
 let formDataObjCheckbox = {
 	usingCondition: {
-		name: usingCondition.name,
+		checked: usingCondition.checked,
 		error: usingCondition.dataset.error,
 		id: usingCondition,
+		name: usingCondition.name,
 		valid: false,
-		value: usingCondition.checked,
+		
 	},
 	newsletter: {
-		value: newsletter.checked,
+		checked: newsletter.checked,
 		id: newsletter,
 		valid: false
 	}
@@ -193,7 +194,7 @@ function initFormData() {
 
 	}
 	for (let field in formDataObjCheckbox) {
-		formDataObjCheckbox[field].value = formDataObjCheckbox[field].id.checked;
+		formDataObjCheckbox[field].checked = formDataObjCheckbox[field].id.checked;
 	}
 }
 
@@ -305,10 +306,11 @@ function validateForm(e) {
 		}
 
 		// create object with all text data to save in localStorage
-		let textDataValues = Object.keys(formDataObj).reduce((acc, field) => {
-			acc[field] = formDataObj[field].value;
-			return acc;
-		}, {});
+		let textDataValues = Object.keys(formDataObj)
+			.reduce((acc, field) => {
+				acc[field] = formDataObj[field].value;
+				return acc;
+			}, {});
 
 		// create object with location checked to save in localStorage
 		let locationChecked = Object.keys(formDataObjRadio)
@@ -319,10 +321,11 @@ function validateForm(e) {
 			}, {});
 
 		// create object with all checkbox data to save in localStorage
-		let checkboxValues = Object.keys(formDataObjCheckbox).reduce((acc, field) => {
-			acc[field] = formDataObjCheckbox[field].value;
-			return acc;
-		}, {});
+		let checkboxValues = Object.keys(formDataObjCheckbox)
+			.reduce((acc, field) => {
+				acc[field] = formDataObjCheckbox[field].checked;
+				return acc;
+			}, {});
 		/*
 		create an object that contains 
 			all text data (firstName, lastName, email, birthdate, quantityOfTournament), 
@@ -357,7 +360,7 @@ for (let field in formDataObj) {
 
 // validate field function : green border if is valid
 function validateField(field, fieldDataObj) {
-	
+
 	if (fieldDataObj.regex.test(field.value)) {
 		field.classList.toggle("text-control--valid", true);
 		formData[field.name].dataset.errorVisible = "false";
@@ -367,7 +370,7 @@ function validateField(field, fieldDataObj) {
 		formData[field.name].dataset.errorVisible = "true";
 		fieldDataObj.valid = false;
 	}
-	
+
 	switch (fieldDataObj.name) {
 		case "birthdate":
 			if (limitAge()) {
@@ -375,7 +378,7 @@ function validateField(field, fieldDataObj) {
 				formData.birthdate.dataset.error = "Veuillez entrer votre date de naissance.";
 				birthdate.classList.toggle("text-control--valid", true);
 				fieldDataObj.valid = true;
-				
+
 			} else {
 				formData.birthdate.dataset.errorVisible = "true";
 				formData.birthdate.dataset.error = "L'inscription est réservée aux personnes de plus de 16 ans.";
