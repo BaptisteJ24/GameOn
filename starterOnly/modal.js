@@ -359,7 +359,6 @@ for (let field in formDataObj) {
 
 // validate field function : green border if is valid
 function validateField(field, fieldDataObj) {
-	console.log(fieldDataObj);
 	if (fieldDataObj.regex.test(field.value)) {
 		field.classList.toggle("text-control--valid", true);
 		formData[field.name].dataset.errorVisible = "false";
