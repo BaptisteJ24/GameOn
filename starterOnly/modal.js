@@ -359,7 +359,7 @@ for (let field in formDataObj) {
 
 // validate field function : green border if is valid
 function validateField(field, fieldDataObj) {
-
+	console.log(fieldDataObj);
 	if (fieldDataObj.regex.test(field.value)) {
 		field.classList.toggle("text-control--valid", true);
 		formData[field.name].dataset.errorVisible = "false";
@@ -386,7 +386,7 @@ function validateField(field, fieldDataObj) {
 			}
 			break;
 		case "quantity":
-			if (parseInt(fieldDataObj.value) < 1 || parseInt(fieldDataObj.value) > 99) {
+			if (parseInt(field.value) < 1 || parseInt(field.value) > 99) {
 				formData.quantity.dataset.errorVisible = "true";
 				formData.quantity.dataset.error = "Veuillez entrer un nombre entre 1 et 99.";
 				quantity.classList.toggle("text-control--valid", false);
