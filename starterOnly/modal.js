@@ -1,4 +1,4 @@
-// DOM elements object
+// DOM elements
 const
 	modalbg = document.querySelector(".bground"),
 	modalBtn = document.querySelectorAll(".modal-btn"),
