@@ -117,7 +117,6 @@ for (let i = 0; i < radioBtns.length; i++) {
 let formDataObjCheckbox = {
 	usingCondition: {
 		checked: usingCondition.checked,
-		error: usingCondition.dataset.error,
 		id: usingCondition,
 		name: usingCondition.name,
 		valid: false,
