@@ -34,28 +34,6 @@ const regex = {
 	number: /^[0-9]{1,2}$/
 }
 
-// function to valid user have 16 years old or more
-function limitAge() {
-	const today = new Date();
-	let birthdateValue = new Date(birthdate.value);
-	if (isNaN(birthdateValue.getTime())) {
-		return false;
-	}
-	else {
-		let age = today.getUTCFullYear() - birthdateValue.getUTCFullYear();
-		let month = today.getUTCMonth() - birthdateValue.getUTCMonth();
-		let day = today.getUTCDate() - birthdateValue.getUTCDate();
-		if (month < 0 || (month === 0 && day < 0)) {
-			age--;
-		}
-		if (age < 16) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-}
-
 // formData object for each text input field in the form
 let formDataObj = {
 	firstName: {
@@ -126,6 +104,28 @@ let formDataObjCheckbox = {
 		checked: newsletter.checked,
 		id: newsletter,
 		valid: false
+	}
+}
+
+// function to valid user have 16 years old or more
+function limitAge() {
+	const today = new Date();
+	let birthdateValue = new Date(birthdate.value);
+	if (isNaN(birthdateValue.getTime())) {
+		return false;
+	}
+	else {
+		let age = today.getUTCFullYear() - birthdateValue.getUTCFullYear();
+		let month = today.getUTCMonth() - birthdateValue.getUTCMonth();
+		let day = today.getUTCDate() - birthdateValue.getUTCDate();
+		if (month < 0 || (month === 0 && day < 0)) {
+			age--;
+		}
+		if (age < 16) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 
