@@ -224,7 +224,7 @@ function validateFormData() {
 	}
 
 	// check if quantity is valid (must be > 0 and < 100)
-	if (formDataObj.quantity.valid && (parseInt(formDataObj.quantity.value) < 1 || parseInt(formDataObj.quantity.value) > 99)) {
+	if (formDataObj.quantity.valid && (parseInt(formDataObj.quantity.value) < 0 || parseInt(formDataObj.quantity.value) > 99)) {
 		formData.quantity.dataset.errorVisible = "true";
 		formDataObj.quantity.valid = false;
 	}
@@ -384,7 +384,7 @@ function validateField(field, fieldDataObj) {
 			}
 			break;
 		case "quantity":
-			if (parseInt(field.value) < 1 || parseInt(field.value) > 99) {
+			if (parseInt(field.value) < 0 || parseInt(field.value) > 99) {
 				formData.quantity.dataset.errorVisible = "true";
 				formData.quantity.dataset.error = "Veuillez entrer un nombre entre 1 et 99.";
 				quantity.classList.toggle("text-control--valid", false);
