@@ -1,4 +1,4 @@
-# Projet_4_GameOn
+# GameOn
 
 Mission : Créez une landing page avec Javascript.
 
@@ -7,6 +7,6 @@ Compétences :
 
 Fait par : Baptiste JAN
 
-Disponible sur : https://baptistej24.github.io/GameOn-website-FR/starterOnly/
+Disponible sur : https://baptistej24.github.io/GameOn/
 
 Mis à jour le 30/01/2023.
